@@ -58,7 +58,7 @@ async function callGonka(apiKey: string, model: typeof models[number], material:
   const response = await fetch("https://api.gonkarouter.io/v1/messages", {
     method: "POST",
     headers: { "x-api-key": apiKey, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-    body: JSON.stringify({ model: model.id, max_tokens: 2048, temperature: 0.2, messages: [{ role: "user", content: prompt }] }),
+    body: JSON.stringify({ model: model.id, max_tokens: 1024, temperature: 0.1, messages: [{ role: "user", content: prompt }] }),
   });
   if (!response.ok) throw new Error(`Gonka ${model.name} 暂时不可用（${response.status}）`);
   const data = await response.json();

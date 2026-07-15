@@ -54,6 +54,6 @@
 
 ## 投稿链接
 
-- 在线 Demo：待部署
+- 在线 Demo：https://www.asihg.com/test01/
 - GitHub：待创建
 - 演示视频：待上传
