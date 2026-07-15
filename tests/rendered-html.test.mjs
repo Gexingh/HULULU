@@ -13,7 +13,7 @@ async function render(path = "/") {
 }
 
 test("renders the TruthLens product page", async () => {
-  const response = await render();
+  const response = await render("/test01/");
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();

@@ -47,7 +47,7 @@ export function TruthLensApp() {
     setError("");
     setResult(null);
     try {
-      const response = await fetch("/api/analyze", {
+      const response = await fetch("/test01/api/analyze", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ claim: claim.trim(), url: url.trim() }),
