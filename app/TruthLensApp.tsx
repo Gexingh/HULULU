@@ -79,13 +79,18 @@ export function TruthLensApp() {
       <section className="hero" id="top">
         <div className="hero-grid">
           <div className="hero-copy">
-            <div className="eyebrow"><span>AI FACT CHECKING · OPEN & TRACEABLE</span></div>
-            <h1>让事实，<br /><em>经得起交叉验证。</em></h1>
-            <p className="lead">输入一段传言或公开链接。两种独立模型将从正反视角交叉核验，给出清晰结论、证据线索和可追溯的 Truth Score。</p>
+            <div className="eyebrow"><span>GONKA ROUTER · DUAL MODEL VERIFICATION</span></div>
+            <h1>别急着转发，<br /><em>先让两个 AI 对质。</em></h1>
+            <p className="lead">呼噜噜 TruthLens 会把同一条公共信息交给 Kimi 与 MiniMax 独立核验，再用透明公式生成 Truth Score、证据线索和可追溯 Request ID。</p>
             <div className="hero-badges"><span>双模型独立判断</span><span>真实推理凭证</span><span>约 60 秒出结果</span></div>
+            <div className="hero-stats">
+              <div><strong>Kimi</strong><span>事实调查</span></div>
+              <div><strong>MiniMax</strong><span>反方审计</span></div>
+              <div><strong>0-100</strong><span>Truth Score</span></div>
+            </div>
           </div>
           <div className="signal-card" aria-hidden="true">
-            <div className="signal-top"><span>LIVE VERIFICATION</span><b><i /> NETWORK READY</b></div>
+            <div className="signal-top"><span>TRACEABLE INFERENCE</span><b><i /> GONKA ONLINE</b></div>
             <div className="orbit">
               <div className="orbit-ring ring-one" />
               <div className="orbit-ring ring-two" />
