@@ -53,7 +53,7 @@ async function callGonka(apiKey: string, model: typeof models[number], material:
   const roleInstruction = model.role === "事实调查员"
     ? "你是严谨的事实调查员。先拆解可核验主张，再判断证据是否支持，无法确认时必须明确说未知。"
     : "你是独立的反方审计员。主动寻找反例、偷换概念、时间错位、来源缺陷和模型可能误判的地方。";
-  const prompt = `${roleInstruction}\n\n请核验以下材料。${sourceUrl ? `材料来自实时抓取的公开链接：${sourceUrl}` : "用户未提供原始链接，请降低来源可靠度，禁止假装已浏览互联网。"}\n\n${material}\n\n只输出一个合法 JSON 对象，不要 Markdown，不要前后解释。字段必须为：\n{"verdict":"不超过18字的结论","truth_score":0到100的整数,"summary":"80字以内摘要","key_points":["2到4条关键判断"],"evidence":[{"title":"证据名称","url":"仅填写你确信存在的公开URL，否则留空","note":"证据与主张的关系"}],"uncertainties":["0到3条不确定性"],"recommendation":"给普通用户的一条具体建议"}\ntruth_score 表示主张为真的可能程度；证据不足时应在 35-65 区间，严禁编造来源。`;
+  const prompt = `${roleInstruction}\n\n请核验以下材料。${sourceUrl ? `材料来自实时抓取的公开链接：${sourceUrl}` : "用户未提供原始链接，请降低来源可靠度，禁止假装已浏览互联网。"}\n\n${material}\n\n只输出一个合法 JSON 对象，不要 Markdown，不要前后解释，不要输出思考过程或 <think> 标签。字段必须为：\n{"verdict":"不超过18字的结论","truth_score":0到100的整数,"summary":"80字以内摘要","key_points":["2到4条关键判断"],"evidence":[{"title":"证据名称","url":"仅填写你确信存在的公开URL，否则留空","note":"证据与主张的关系"}],"uncertainties":["0到3条不确定性"],"recommendation":"给普通用户的一条具体建议"}\ntruth_score 表示主张为真的可能程度；证据不足时应在 35-65 区间，严禁编造来源。`;
 
   const response = await fetch("https://api.gonkarouter.io/v1/messages", {
     method: "POST",
@@ -63,8 +63,24 @@ async function callGonka(apiKey: string, model: typeof models[number], material:
   if (!response.ok) throw new Error(`Gonka ${model.name} 暂时不可用（${response.status}）`);
   const data = await response.json();
   const text = Array.isArray(data.content) ? data.content.filter((x: { type?: string }) => x.type === "text").map((x: { text?: string }) => x.text || "").join("") : "";
-  const parsed = parseJson(text);
+  const parsed = safeParseReport(text);
   return normalizeReport(parsed, model, String(data.id || "unavailable"));
+}
+
+function safeParseReport(text: string): RawReport {
+  try {
+    return parseJson(text);
+  } catch {
+    return {
+      verdict: "格式异常",
+      truth_score: 50,
+      summary: "该模型本次未返回可解析的结构化报告，系统已降级处理。",
+      key_points: ["模型返回格式异常，系统已降级展示。", "建议重新核验或补充更明确的一手来源。"],
+      evidence: [],
+      uncertainties: ["本次报告无法解析为严格 JSON。"],
+      recommendation: "请重试一次，或直接粘贴更完整的原文材料。",
+    };
+  }
 }
 
 function parseJson(text: string): RawReport {
