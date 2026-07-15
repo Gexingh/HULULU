@@ -70,18 +70,37 @@ export function TruthLensApp() {
           <span className="brand-mark">呼</span>
           <span>呼噜噜 <b>TruthLens</b></span>
         </a>
-        <div className="network-status"><i /> Powered by Gonka Network</div>
+        <div className="top-actions">
+          <a href="#how">工作原理</a>
+          <div className="network-status"><i /> Gonka Network 在线</div>
+        </div>
       </header>
 
       <section className="hero" id="top">
-        <div className="eyebrow"><span>PUBLIC AI · TRACEABLE INFERENCE</span></div>
-        <h1>别急着转发，<br /><em>先让两个 AI 对质。</em></h1>
-        <p className="lead">输入一段传言或公开链接，由 Kimi 与 MiniMax 通过 Gonka 去中心化推理网络独立核验，给出可追溯的 Truth Score。</p>
+        <div className="hero-grid">
+          <div className="hero-copy">
+            <div className="eyebrow"><span>AI FACT CHECKING · OPEN & TRACEABLE</span></div>
+            <h1>让事实，<br /><em>经得起交叉验证。</em></h1>
+            <p className="lead">输入一段传言或公开链接。两种独立模型将从正反视角交叉核验，给出清晰结论、证据线索和可追溯的 Truth Score。</p>
+            <div className="hero-badges"><span>双模型独立判断</span><span>真实推理凭证</span><span>约 60 秒出结果</span></div>
+          </div>
+          <div className="signal-card" aria-hidden="true">
+            <div className="signal-top"><span>LIVE VERIFICATION</span><b><i /> NETWORK READY</b></div>
+            <div className="orbit">
+              <div className="orbit-ring ring-one" />
+              <div className="orbit-ring ring-two" />
+              <div className="core"><span>TRUTH</span><strong>✓</strong><small>LENS</small></div>
+              <div className="node node-a"><b>K</b><span>Kimi<br />调查员</span></div>
+              <div className="node node-b"><b>M</b><span>MiniMax<br />审计员</span></div>
+            </div>
+            <div className="signal-foot"><span><b>2</b> models</span><span><b>1</b> verdict</span><span><b>100%</b> traceable</span></div>
+          </div>
+        </div>
 
         <form className="checker" onSubmit={submit}>
           <div className="checker-head">
             <span className="step">01</span>
-            <div><strong>粘贴待核验信息</strong><small>支持中文文本与公开网页链接</small></div>
+            <div><strong>今天想核验什么？</strong><small>输入新闻、传言、社交媒体内容，或补充一个公开来源</small></div>
           </div>
           <label className="sr-only" htmlFor="claim">待核验文本</label>
           <textarea id="claim" value={claim} onChange={(e) => setClaim(e.target.value)} placeholder="例如：网传某项研究已经证明……" maxLength={8000} />
@@ -105,7 +124,7 @@ export function TruthLensApp() {
         </div>
       </section>
 
-      <section className="method">
+      <section className="method" id="how">
         <div><span>①</span><strong>Kimi 独立调查</strong><small>提取主张与支持证据</small></div>
         <b>×</b>
         <div><span>②</span><strong>MiniMax 反方审计</strong><small>寻找漏洞与不确定性</small></div>
